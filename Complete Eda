@@ -1,0 +1,282 @@
+# ==========================================
+# Module 2: Dataset Exploratory Data Analysis (EDA)
+# ==========================================
+import os
+import numpy as np
+import pandas as pd
+import librosa
+import librosa.display
+import matplotlib.pyplot as plt
+import seaborn as sns
+import soundfile as sf
+from tqdm import tqdm
+from IPython.display import display
+
+class MusicSourceSeparationEDA:
+    """
+    Comprehensive EDA class for music source separation datasets.
+    Provides statistical analysis, consistency verification, and visualization capabilities.
+    """
+    
+    # 2.1 Class Initialization
+    def __init__(self, root_dir, sr=44100):
+        """
+        Initialize the EDA analyzer with dataset parameters.
+        
+        Args:
+            root_dir (str): Root directory containing the dataset
+            sr (int): Target sampling rate for audio processing
+        """
+        self.root_dir = root_dir
+        self.sr = sr
+        self.track_names = ['vocals.wav', 'drums.wav', 'bass.wav', 'other.wav']
+        sns.set_theme(style="whitegrid")
+
+    # 2.2 Orchestrate the full EDA pipeline
+    def run_full_analysis(self, num_stats_samples=80):
+        """
+        Execute the complete EDA workflow in sequential order.
+        
+        Args:
+            num_stats_samples (int): Maximum number of songs to analyze for statistics
+        """
+        print("=" * 60)
+        print(f"[0] Starting EDA Analysis (Target sample count: {num_stats_samples})")
+        print("=" * 60)
+        
+        songs = [d for d in os.listdir(self.root_dir) if os.path.isdir(os.path.join(self.root_dir, d))]
+        actual_samples = min(len(songs), num_stats_samples)
+        selected_songs = songs[:actual_samples]
+
+        if not selected_songs:
+            print("Error: No data found in the specified directory.")
+            return
+
+        # 2.3 Extract global dataset statistics and verify data consistency
+        df_stats = self._analyze_global_stats_and_consistency(selected_songs)
+
+        # 2.4 Analyze distribution characteristics
+        self._analyze_durations(df_stats)
+        self._analyze_global_energy_ratios(selected_songs)
+
+        # 2.5 Perform single sample visualization
+        representative_song_path = self._find_ideal_sample(selected_songs)
+        self._visualize_single_sample(representative_song_path)
+
+    # 2.3 Global Stats and Consistency Implementation
+    def _analyze_global_stats_and_consistency(self, song_list):
+        """
+        Calculate global dataset statistics and verify data consistency across all samples.
+        
+        Args:
+            song_list (list): List of song directories to analyze
+            
+        Returns:
+            pd.DataFrame: DataFrame containing statistics for each song
+        """
+        stats = []
+        unique_srs = set()
+        unique_channels = set()
+        
+        # 2.3.1 Iterate through songs to extract basic properties
+        for song in tqdm(song_list, desc="Processing global stats"):
+            mix_path = os.path.join(self.root_dir, song, 'mixture.wav')
+            info = sf.info(mix_path)
+            
+            duration = info.duration
+            sr = info.samplerate
+            channels = info.channels
+            
+            # 2.3.2 Collect parameters to verify consistency across the dataset
+            unique_srs.add(sr)
+            unique_channels.add(channels)
+            
+            # 2.3.3 Read a sample chunk to compute average energy and silence ratio
+            start_frame = int(max(0, info.frames // 2 - sr * 15))
+            frames_to_read = min(sr * 30, info.frames)
+            data, _ = sf.read(mix_path, start=start_frame, frames=frames_to_read, always_2d=True)
+            
+            avg_energy = np.mean(data**2)
+            silence_ratio = np.mean(np.abs(data) < 1e-4) 
+            
+            stats.append({
+                'Song': song,
+                'Duration(s)': round(duration, 2),
+                'SR': sr,
+                'Channels': channels,
+                'Avg Energy': avg_energy,
+                'Silence Ratio': round(silence_ratio, 4)
+            })
+            
+        df = pd.DataFrame(stats)
+        
+        # 2.3.4 Compute aggregate metrics
+        total_dur = df['Duration(s)'].sum()
+        avg_dur = df['Duration(s)'].mean()
+        
+        print("\n" + "=" * 60)
+        print("[1] Global Dataset Statistics & Data Consistency")
+        print("=" * 60)
+        print(f"Total evaluated songs: {len(song_list)}")
+        print(f"Total duration: {total_dur / 3600:.2f} hours ({total_dur:.2f} seconds)")
+        print(f"Average duration: {avg_dur:.2f} seconds/song")
+        print(f"Average silence ratio: {df['Silence Ratio'].mean() * 100:.2f}%")
+        
+        # 2.3.5 Output consistency verification results
+        print("-" * 60)
+        print(f"Sampling rate consistency: {'Passed' if len(unique_srs) == 1 else 'Failed'} (Sets: {unique_srs})")
+        print(f"Channel consistency: {'Passed' if len(unique_channels) == 1 else 'Failed'} (Sets: {unique_channels})")
+        
+        # 2.3.6 Output formatted statistical table
+        print("\n" + "=" * 60)
+        print("[2] Formatted Statistics Table (Top 5 samples)")
+        print("=" * 60)
+        display(df.head())
+        
+        return df
+
+    # 2.4.1 Audio Duration Distribution Analysis
+    def _analyze_durations(self, df_stats):
+        """
+        Generate and display the distribution of song durations in the dataset.
+        
+        Args:
+            df_stats (pd.DataFrame): DataFrame containing song statistics
+        """
+        print("\n" + "=" * 60)
+        print("[3] Plotting Global Dataset Duration Distribution")
+        print("=" * 60)
+        
+        plt.figure(figsize=(10, 4))
+        sns.histplot(df_stats['Duration(s)'], kde=True, color="#2E86AB", bins=20)
+        plt.title(f"Global Dataset Duration Distribution (N={len(df_stats)})", fontsize=14, fontweight='bold')
+        plt.xlabel("Duration (seconds)")
+        plt.ylabel("Frequency Count")
+        plt.tight_layout()
+        plt.show()
+
+    # 2.4.2 Global Energy Ratio Distribution Analysis
+    def _analyze_global_energy_ratios(self, song_list):
+        """
+        Calculate and visualize the normalized energy ratio distribution across all stems.
+        
+        Args:
+            song_list (list): List of song directories to analyze
+        """
+        print("\n" + "=" * 60)
+        print("[4] Analyzing and Plotting Stem Energy Ratio Distribution")
+        print("=" * 60)
+        
+        all_energies = []
+        # 2.4.2.1 Iterate to gather normalized energy ratios across stems
+        for song in tqdm(song_list, desc="Sampling stem energies"):
+            song_path = os.path.join(self.root_dir, song)
+            song_e = []
+            try:
+                for t in self.track_names:
+                    info = sf.info(os.path.join(song_path, t))
+                    start_frame = int(max(0, info.frames // 2 - self.sr * 5))
+                    data, _ = sf.read(os.path.join(song_path, t), start=start_frame, frames=self.sr * 10)
+                    song_e.append(np.sqrt(np.mean(data**2)))
+                
+                total = sum(song_e) + 1e-8
+                all_energies.append([e/total for e in song_e])
+            except:
+                continue
+
+        df_e = pd.DataFrame(all_energies, columns=['Vocals', 'Drums', 'Bass', 'Other'])
+
+        # 2.4.2.2 Plot boxplot with overlaid stripplot
+        plt.figure(figsize=(10, 5))
+        sns.boxplot(data=df_e, palette="Set3", width=0.5)
+        sns.stripplot(data=df_e, color=".3", size=4, alpha=0.6)
+        plt.title(f"Stem Energy Ratio Distribution (N={len(all_energies)})", fontsize=14, fontweight='bold')
+        plt.ylabel("Normalized Energy Ratio")
+        plt.tight_layout()
+        plt.show()
+        
+        # 2.4.2.3 Calculate and print normalized energy means
+        print("\n" + "=" * 60)
+        print("[5] Normalized Energy Means Statistics")
+        print("=" * 60)
+        mean_stats = (df_e.mean() * 100).round(2).astype(str) + '%' 
+        print(mean_stats.to_string())
+        print("=" * 60)
+
+    # 2.5.1 Automatically screen for a balanced sample for visualization
+    def _find_ideal_sample(self, song_list):
+        """
+        Automatically select a representative song with non-silent stems for visualization.
+        
+        Args:
+            song_list (list): List of song directories to search
+            
+        Returns:
+            str: Path to the selected representative song directory
+        """
+        for song in song_list:
+            song_path = os.path.join(self.root_dir, song)
+            is_ideal = True
+            for t in self.track_names:
+                data, _ = sf.read(os.path.join(song_path, t), frames=self.sr * 2)
+                if np.sqrt(np.mean(data**2)) < 0.02: 
+                    is_ideal = False
+                    break
+            if is_ideal:
+                print(f"\nAutomatically selected representative sample for visualization: {song}")
+                return song_path
+        return os.path.join(self.root_dir, song_list[0])
+
+    # 2.5.2 Single Sample Waveform and Spectrogram Visualization
+    def _visualize_single_sample(self, song_path, duration=5):
+        """
+        Generate time-domain waveform and log-Mel spectrogram visualizations for a single song.
+        
+        Args:
+            song_path (str): Path to the song directory
+            duration (int): Duration of audio to visualize in seconds
+        """
+        print("\n" + "=" * 60)
+        print(f"[6] Plotting Single Sample Visualization: {os.path.basename(song_path)}")
+        print("=" * 60)
+        
+        titles = ['Mixture', 'Vocals', 'Drums', 'Bass', 'Other']
+        audios = []
+        
+        for t in ['mixture.wav'] + self.track_names:
+            data, _ = sf.read(os.path.join(song_path, t), frames=self.sr * duration)
+            audios.append(data.mean(axis=1) if data.ndim > 1 else data)
+
+        time_axis = np.linspace(0, duration, len(audios[0]))
+
+        # 2.5.2.1 Plot time-domain waveform overlay/comparison
+        fig_wave, axes_wave = plt.subplots(5, 1, figsize=(12, 8), sharex=True)
+        colors = ['#34495e', '#e74c3c', '#f1c40f', '#2ecc71', '#9b59b6']
+        for i, (audio, title, color) in enumerate(zip(audios, titles, colors)):
+            axes_wave[i].plot(time_axis, audio, color=color, alpha=0.8)
+            axes_wave[i].set_ylabel(title, fontsize=10, fontweight='bold')
+            axes_wave[i].grid(True, linestyle=':', alpha=0.6)
+        axes_wave[-1].set_xlabel("Time (seconds)")
+        plt.suptitle(f"Time-Domain Waveform Comparison: {os.path.basename(song_path)}", fontsize=14, fontweight='bold')
+        plt.tight_layout()
+        plt.show()
+
+        # 2.5.2.2 Plot Log-Mel spectrogram comparison
+        fig_mel, axes_mel = plt.subplots(1, 5, figsize=(22, 4))
+        for i, (audio, title) in enumerate(zip(audios, titles)):
+            S = librosa.feature.melspectrogram(y=audio, sr=self.sr, n_fft=2048, hop_length=512, n_mels=128)
+            S_dB = librosa.power_to_db(S, ref=np.max)
+            librosa.display.specshow(S_dB, x_axis='time', y_axis='mel', sr=self.sr, hop_length=512, ax=axes_mel[i], cmap='magma')
+            axes_mel[i].set_title(title, fontweight='bold')
+        # Add log-Mel spectrogram title with consistent format
+        plt.suptitle(f"Log-Mel Spectrogram Analysis: {os.path.basename(song_path)}", y=1.05, fontsize=14, fontweight='bold')
+        plt.tight_layout()
+        plt.show()
+
+# ================= Execution Block =================
+# Ensure 'train_root' is defined as your dataset path prior to execution
+if 'train_root' in locals() and os.path.exists(train_root):
+    eda = MusicSourceSeparationEDA(train_root)
+    eda.run_full_analysis(num_stats_samples=80)
+else:
+    print("Environment setup required: 'train_root' path is undefined or does not exist.")
