@@ -1,0 +1,60 @@
+# 1.1 Import dependencies
+import os
+import random
+import time
+import gc
+import io
+import numpy as np
+import pandas as pd
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import soundfile as sf
+import matplotlib.pyplot as plt
+import seaborn as sns
+from tqdm import tqdm
+import IPython.display as ipd
+from IPython.display import display, Markdown
+from IPython.core.display import display, HTML
+import scipy.io.wavfile as wavfile
+import librosa
+import librosa.display
+
+
+# 1.2 Global Hyperparameter Management (CONFIG)
+CONFIG = {
+    'SEED': 42,
+    'BASE_DIR': '/kaggle/input/datasets/quanglvitlm/musdb18-hq',
+    'SAMPLE_RATE': 44100,
+    'FULL_LENGTH': 6,
+    'SLICE_LENGTH': 3,
+    'BATCH_SIZE': 16,
+    'STYLE_DIM': 128,
+    'HIDDEN_DIM': 512,
+    'N_FFT': 4096,
+    'HOP_LENGTH': 1024,
+    'TOTAL_EPOCHS': 80,
+    'LR': 1e-3,
+    'WEIGHT_DECAY': 1e-4,
+    'MAX_NORM': 1.0,
+    'EVAL_SONGS': 25,
+    'EVAL_DURATION': 120 # seconds
+}
+
+# 1.3 Fixed Random Seeds
+random.seed(CONFIG['SEED'])
+np.random.seed(CONFIG['SEED'])
+torch.manual_seed(CONFIG['SEED'])
+if torch.cuda.is_available():
+    torch.cuda.manual_seed_all(CONFIG['SEED'])
+
+# 1.4 Dataset Paths and Counting
+train_root = os.path.join(CONFIG['BASE_DIR'], 'train')
+val_root = os.path.join(CONFIG['BASE_DIR'], 'valid')
+test_root = os.path.join(CONFIG['BASE_DIR'], 'test')
+
+all_train_songs = [d for d in os.listdir(train_root) if os.path.isdir(os.path.join(train_root, d))] if os.path.exists(train_root) else []
+all_val_songs = [d for d in os.listdir(val_root) if os.path.isdir(os.path.join(val_root, d))] if os.path.exists(val_root) else []
+all_test_songs = [d for d in os.listdir(test_root) if os.path.isdir(os.path.join(test_root, d))] if os.path.exists(test_root) else []
+
+print(f"Full dataset loaded: Train {len(all_train_songs)} songs, Validation {len(all_val_songs)} songs, Test {len(all_test_songs)} songs")
