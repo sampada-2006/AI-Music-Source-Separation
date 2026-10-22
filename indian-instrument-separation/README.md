@@ -61,19 +61,17 @@ Dataset licensing and redistribution permissions must be checked before sharing 
 
 ## Setup
 
-Use a Python environment and install the dependencies listed in `requirements.txt`.
-
-```bash
-python -m venv .venv
-```
-
-Activate the environment, then install the dependencies:
+There is no `requirements.txt` in this project. The MTG voice-separation baseline was verified with Python 3.11.15 and the following package versions:
 
 **Windows PowerShell**
+
 ```powershell
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+python -m venv .venv_mtg
+.\.venv_mtg\Scripts\Activate.ps1
+python -m pip install tensorflow==2.15.0 keras==2.15.0 numpy==1.26.4 scipy==1.17.1 soundfile==0.14.0 librosa==0.11.0 scikit-learn==1.9.1 matplotlib==3.11.2 tqdm==4.70.1
 ```
+
+The model checkpoint is distributed separately and is not installed by this command.
 
 ## Running the Experiments
 
@@ -84,3 +82,23 @@ python src/run_saraga_mridangam_demo.py
 python src/run_saraga_mridangam_brova_demo.py
 python src/run_percussion_hpss_demo.py
 ```
+
+### MTG Carnatic singing-voice baseline
+
+The official MTG `saraga-8` cold-diffusion model estimates the singing voice. The accompaniment output is the residual (`mixture - vocal estimate`); this is **not** an mridangam-specific separator. No training is performed. The checkpoint files must already be present in `models/mtg/saraga-8/`, including `saraga-8.ckpt-1.index` and `saraga-8.ckpt-1.data-00000-of-00001`.
+
+From the project root, run a short Saraga segment with its vocal reference:
+
+```powershell
+python .\src\mtg\run_mtg_baseline.py `
+  --mixture .\data\saraga_mridangam_brova_barama\saraga_brova_barama_mixture.mp3 `
+  --vocal-ref .\data\saraga_mridangam_brova_barama\saraga_brova_barama_vocal.mp3 `
+  --output-dir .\outputs\mtg_baseline `
+  --duration 3 `
+  --clusters 5 `
+  --scheduler 4
+```
+
+Inputs are downmixed to mono and resampled to 22,050 Hz before applying the official peak normalization and separation pipeline. The output directory contains the mixture, vocal estimate, accompaniment residual, optional reference, diagnostic plot, and metrics JSON. SI-SDR compares the estimate with the available Saraga vocal track; reference bleed and alignment limit how literally to interpret it. Mridangam references are not included unless explicitly passed to `--mridangam-left` and `--mridangam-right`.
+
+A verified 3-second run produced vocal SI-SDR of **-3.62 dB** versus **-1.68 dB** for the mixture, a change of **-1.94 dB**. This short result did not improve SI-SDR and is not a general performance claim.

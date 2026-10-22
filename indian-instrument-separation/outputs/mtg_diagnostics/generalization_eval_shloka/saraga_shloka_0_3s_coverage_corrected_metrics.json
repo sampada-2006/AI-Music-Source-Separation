@@ -1,0 +1,161 @@
+{
+  "recording": "Saraga Shloka sample",
+  "reference_representation": "local vocal-reference MP3, downmixed to mono and resampled to 22,050 Hz",
+  "start_seconds": 0.0,
+  "duration_seconds": 3.0,
+  "sample_rate": 22050,
+  "samples": 66150,
+  "source_mixture": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\data\\saraga_mridangam_sample\\saraga_shloka_mixture.mp3",
+  "source_vocal_reference": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\data\\saraga_mridangam_sample\\saraga_shloka_vocal.mp3",
+  "original_baseline": {
+    "available": false,
+    "si_sdr_db": null,
+    "reason": "No original MTG baseline estimate exists for this Shloka excerpt."
+  },
+  "same_reference_and_interval_for_comparison": true,
+  "preprocessing": {
+    "channel_conversion": "arithmetic mean across channels",
+    "resampling": "scipy.signal.resample_poly to 22,050 Hz",
+    "model_input_normalization": "mixture divided by its maximum signed sample, matching the verified Brova diagnostic",
+    "mixture_reference_zero_lag_correlation": 0.07031359489649275
+  },
+  "metrics": {
+    "mixture_vs_vocal_reference": {
+      "value_db": -23.037689170277847,
+      "status": "finite",
+      "reason": null,
+      "reference_energy": 14.759352852075605,
+      "estimate_energy": 627.9670290759569,
+      "projection_energy": 3.1046700136222416,
+      "residual_energy": 624.8623590623346
+    },
+    "coverage_corrected_vs_vocal_reference": {
+      "value_db": -20.77716692406637,
+      "status": "finite",
+      "reason": null,
+      "reference_energy": 14.759352852075605,
+      "estimate_energy": 671.6817298128952,
+      "projection_energy": 5.569684497731883,
+      "residual_energy": 666.1120453151638
+    },
+    "coverage_corrected_change_vs_mixture_db": 2.260522246211476,
+    "change_status": "finite",
+    "change_reason": null
+  },
+  "mixture": {
+    "samples": 66150,
+    "duration_seconds": 3.0,
+    "sample_rate": 22050,
+    "channels": 1,
+    "finite": true,
+    "peak": 0.46859076619148254,
+    "rms": 0.09744126343772473,
+    "trailing_exact_zero_samples": 0,
+    "trailing_exact_zero_seconds": 0.0
+  },
+  "vocal_reference": {
+    "samples": 66150,
+    "duration_seconds": 3.0,
+    "sample_rate": 22050,
+    "channels": 1,
+    "finite": true,
+    "peak": 0.07438886165618896,
+    "rms": 0.014937184835500656,
+    "trailing_exact_zero_samples": 0,
+    "trailing_exact_zero_seconds": 0.0
+  },
+  "coverage_corrected_estimate": {
+    "samples": 66150,
+    "duration_seconds": 3.0,
+    "sample_rate": 22050,
+    "channels": 1,
+    "finite": true,
+    "peak": 0.46856689453125,
+    "rms": 0.10076666419060898,
+    "trailing_exact_zero_samples": 0,
+    "trailing_exact_zero_seconds": 0.0
+  },
+  "full_interval_covered_by_positive_overlap_weights": true,
+  "overlap_weights_finite": true,
+  "overlap_weight_min": 1.0,
+  "overlap_weight_max": 1.0,
+  "chunks": [
+    {
+      "chunk_index": 0,
+      "start_sample": 0,
+      "input_samples_before_padding": 66150,
+      "input_samples_to_model": 66150,
+      "right_padded_samples": 0,
+      "reconstructed_samples": 33536,
+      "written_samples": 33536,
+      "overlap_add_boundary": "start",
+      "next_start_sample": 16768
+    },
+    {
+      "chunk_index": 1,
+      "start_sample": 16768,
+      "input_samples_before_padding": 49382,
+      "input_samples_to_model": 66150,
+      "right_padded_samples": 16768,
+      "reconstructed_samples": 33536,
+      "written_samples": 33536,
+      "overlap_add_boundary": null,
+      "next_start_sample": 33536
+    },
+    {
+      "chunk_index": 2,
+      "start_sample": 33536,
+      "input_samples_before_padding": 32614,
+      "input_samples_to_model": 66150,
+      "right_padded_samples": 33536,
+      "reconstructed_samples": 33536,
+      "written_samples": 32614,
+      "overlap_add_boundary": "end",
+      "next_start_sample": 50304
+    }
+  ],
+  "checkpoint_prefix": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\models\\mtg\\saraga-8\\saraga-8.ckpt-1",
+  "checkpoint_restore_assertion": "assert_existing_objects_matched passed after first model call",
+  "model_settings": {
+    "sample_rate": 22050,
+    "segment_seconds": 3.0,
+    "chunk_seconds": 3.0,
+    "clusters": 5,
+    "scheduler": 4.0,
+    "model_configuration": {
+      "model_type": null,
+      "sr": 22050,
+      "hop": 256,
+      "win": 1024,
+      "mel": 80,
+      "fmin": 0,
+      "fmax": 8000,
+      "eps": 1e-05,
+      "frames": 33536,
+      "batch": 8,
+      "leak": 0.4,
+      "embedding_size": 128,
+      "embedding_proj": 512,
+      "embedding_layers": 2,
+      "embedding_factor": 4,
+      "upsample_stride": [
+        4,
+        1
+      ],
+      "upsample_kernel": [
+        32,
+        3
+      ],
+      "upsample_layers": 4,
+      "channels": 64,
+      "kernel_size": 3,
+      "dilation_rate": 2,
+      "num_layers": 30,
+      "num_cycles": 3,
+      "iter": 8,
+      "noise_policy": "linear",
+      "noise_start": 0.0001,
+      "noise_end": 0.5
+    }
+  }
+}

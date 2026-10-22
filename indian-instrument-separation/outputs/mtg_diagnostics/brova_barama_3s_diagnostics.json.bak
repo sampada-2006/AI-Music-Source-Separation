@@ -1,0 +1,375 @@
+{
+  "baseline_dir": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\outputs\\mtg_baseline",
+  "diagnostic_dir": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\outputs\\mtg_diagnostics",
+  "wav_headers": {
+    "mixture": {
+      "nchannels": 1,
+      "sampwidth": 2,
+      "framerate": 22050,
+      "nframes": 66150,
+      "comptype": "NONE"
+    },
+    "vocal_estimate": {
+      "nchannels": 1,
+      "sampwidth": 2,
+      "framerate": 22050,
+      "nframes": 66150,
+      "comptype": "NONE"
+    },
+    "accomp_estimate": {
+      "nchannels": 1,
+      "sampwidth": 2,
+      "framerate": 22050,
+      "nframes": 66150,
+      "comptype": "NONE"
+    },
+    "vocal_reference": {
+      "nchannels": 1,
+      "sampwidth": 2,
+      "framerate": 22050,
+      "nframes": 66150,
+      "comptype": "NONE"
+    }
+  },
+  "checkpoint": {
+    "pointer": "model_checkpoint_path: \"saraga-8.ckpt-1\"\nall_model_checkpoint_paths: \"saraga-8.ckpt-1\"\n",
+    "data_bytes": 1604829430,
+    "index_bytes": 88700,
+    "expected_zenodo_zip_about_gb": 1.47,
+    "data_gb": 1.4946138765662909,
+    "index_printable_string_count": 1307,
+    "index_sample_variable_like_strings": [
+      "model/net/downsampling/0/0/conv1/bias/.ATTRIBUTES/VARIABLE_VALUE",
+      "x!!!kernel/.ATTRIBUTES/VARIABLE_VALUE",
+      "dense2/bias/.ATTRIBUTES/VARIABLE_VALUE",
+      "kernel/.ATTRIBUTES/VARIABLE_VALUE",
+      "group_norm1/beta/.ATTRIBUTES/VARIABLE_VALUE",
+      "model/net/downsampling/0/0/group_norm1/beta/.OPTIMIZER_SLOT/optim/v/.ATTRIBUTES/VARIABLE_VALUE",
+      "gamma/.ATTRIBUTES/VARIABLE_VALUE",
+      "3/beta/.ATTRIBUTES/VARIABLE_VALUE",
+      "gamma/.ATTRIBUTES/VARIABLE_VALUE",
+      "1/conv1/bias/.ATTRIBUTES/VARIABLE_VALUE",
+      "model/net/downsampling/0/1/conv1/bias/.OPTIMIZER_SLOT/optim/v/.ATTRIBUTES/VARIABLE_VALUE",
+      "!!!kernel/.ATTRIBUTES/VARIABLE_VALUE",
+      "dense2/bias/.ATTRIBUTES/VARIABLE_VALUE",
+      "kernel/.ATTRIBUTES/VARIABLE_VALUE",
+      "group_norm1/beta/.ATTRIBUTES/VARIABLE_VALUE",
+      "gamma/.ATTRIBUTES/VARIABLE_VALUE",
+      "model/net/downsampling/0/1/group_norm1/moving_mean/.ATTRIBUTES/VARIABLE_VALUE",
+      "3/beta/.ATTRIBUTES/VARIABLE_VALUE",
+      "gamma/.ATTRIBUTES/VARIABLE_VALUE",
+      "1/0/conv1/bias/.ATTRIBUTES/VARIABLE_VALUE",
+      "!!\"kernel/.ATTRIBUTES/VARIABLE_VALUE",
+      "model/net/downsampling/1/0/dense2/bias/.ATTRIBUTES/VARIABLE_VALUE",
+      "kernel/.ATTRIBUTES/VARIABLE_VALUE",
+      "kernel/.ATTRIBUTES/VARIABLE_VALUE",
+      "group_norm1/beta/.ATTRIBUTES/VARIABLE_VALUE",
+      "gamma/.ATTRIBUTES/VARIABLE_VALUE",
+      "model/net/downsampling/1/0/group_norm1/gamma/.OPTIMIZER_SLOT/optim/m/.ATTRIBUTES/VARIABLE_VALUE",
+      "3/beta/.ATTRIBUTES/VARIABLE_VALUE",
+      "gamma/.ATTRIBUTES/VARIABLE_VALUE",
+      "1/conv1/bias/.ATTRIBUTES/VARIABLE_VALUE",
+      "*!!\"kernel/.ATTRIBUTES/VARIABLE_VALUE",
+      "Z#model/net/downsampling/1/1/conv1/kernel/.OPTIMIZER_SLOT/optim/m/.ATTRIBUTES/VARIABLE_VALUE",
+      "dense2/bias/.ATTRIBUTES/VARIABLE_VALUE",
+      "kernel/.ATTRIBUTES/VARIABLE_VALUE",
+      "kernel/.ATTRIBUTES/VARIABLE_VALUE",
+      "group_norm1/beta/.ATTRIBUTES/VARIABLE_VALUE",
+      "model/net/downsampling/1/1/group_norm1/beta/.OPTIMIZER_SLOT/optim/v/.ATTRIBUTES/VARIABLE_VALUE",
+      "gamma/.ATTRIBUTES/VARIABLE_VALUE",
+      "3/beta/.ATTRIBUTES/VARIABLE_VALUE",
+      "gamma/.ATTRIBUTES/VARIABLE_VALUE"
+    ],
+    "contains_model_prefix": true,
+    "contains_net_or_unet": true
+  },
+  "stft_truncation_for_3s": {
+    "input_samples": 66150,
+    "stft_frames_approx": 255,
+    "even_frames": 254,
+    "official_next_power_of_2_kept_frames": 128,
+    "approx_kept_samples_after_frame_trim": 32768,
+    "approx_kept_seconds": 1.486077097505669,
+    "local_hop_samples": 33075,
+    "official_hop_if_using_pred_len": 16384
+  },
+  "source_mp3": {
+    "mixture": {
+      "path": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\data\\saraga_mridangam_brova_barama\\saraga_brova_barama_mixture.mp3",
+      "exists": true,
+      "readable": true,
+      "format": "MP3",
+      "subtype": "MPEG_LAYER_III",
+      "samplerate": 44100,
+      "channels": 2,
+      "frames": 11623151,
+      "duration_s": 263.56351473922905,
+      "segment_samples": 132300,
+      "segment_peak": 0.30152809619903564,
+      "segment_rms": 0.06817606880076389
+    },
+    "vocal": {
+      "path": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\data\\saraga_mridangam_brova_barama\\saraga_brova_barama_vocal.mp3",
+      "exists": true,
+      "readable": true,
+      "format": "MP3",
+      "subtype": "MPEG_LAYER_III",
+      "samplerate": 44100,
+      "channels": 1,
+      "frames": 11623962,
+      "duration_s": 263.58190476190475,
+      "segment_samples": 132300,
+      "segment_peak": 0.08954667299985886,
+      "segment_rms": 0.01806206916870946
+    },
+    "mridangam_left": {
+      "path": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\data\\saraga_mridangam_brova_barama\\saraga_brova_barama_mridangam_left.mp3",
+      "exists": true,
+      "readable": true,
+      "format": "MP3",
+      "subtype": "MPEG_LAYER_III",
+      "samplerate": 44100,
+      "channels": 1,
+      "frames": 11623962,
+      "duration_s": 263.58190476190475,
+      "segment_samples": 132300,
+      "segment_peak": 0.0006624868838116527,
+      "segment_rms": 0.00016108889415253705
+    },
+    "mridangam_right": {
+      "path": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\data\\saraga_mridangam_brova_barama\\saraga_brova_barama_mridangam_right.mp3",
+      "exists": true,
+      "readable": true,
+      "format": "MP3",
+      "subtype": "MPEG_LAYER_III",
+      "samplerate": 44100,
+      "channels": 1,
+      "frames": 11623962,
+      "duration_s": 263.58190476190475,
+      "segment_samples": 132300,
+      "segment_peak": 0.016485288739204407,
+      "segment_rms": 0.0027673704581138974
+    }
+  },
+  "accompaniment_reference_available": false,
+  "accompaniment_note": "No isolated accompaniment ground-truth stem is present. Mridangam left/right are percussion parts with bleed, not a full accompaniment reference. Mixture-minus-vocals is not treated as ground truth.",
+  "signal_stats": {
+    "mixture": {
+      "n_samples": 66150,
+      "duration_s": 3.0,
+      "peak": 0.30126953125,
+      "max_signed": 0.23211669921875,
+      "min_signed": -0.30126953125,
+      "rms": 0.06819436471837441,
+      "mean": 0.00014452552939578608,
+      "finite": true,
+      "n_nan": 0,
+      "n_inf": 0,
+      "n_zero": 355,
+      "zero_fraction": 0.005366591080876795
+    },
+    "vocal_estimate": {
+      "n_samples": 66150,
+      "duration_s": 3.0,
+      "peak": 0.30126953125,
+      "max_signed": 0.21246337890625,
+      "min_signed": -0.30126953125,
+      "rms": 0.04290451074263,
+      "mean": -1.7695581922004913e-05,
+      "finite": true,
+      "n_nan": 0,
+      "n_inf": 0,
+      "n_zero": 16441,
+      "zero_fraction": 0.24854119425547996
+    },
+    "accomp_estimate": {
+      "n_samples": 66150,
+      "duration_s": 3.0,
+      "peak": 0.206817626953125,
+      "max_signed": 0.18731689453125,
+      "min_signed": -0.206817626953125,
+      "rms": 0.046310104746385784,
+      "mean": 0.00015057599103009259,
+      "finite": true,
+      "n_nan": 0,
+      "n_inf": 0,
+      "n_zero": 299,
+      "zero_fraction": 0.004520030234315949
+    },
+    "vocal_reference": {
+      "n_samples": 66150,
+      "duration_s": 3.0,
+      "peak": 0.086944580078125,
+      "max_signed": 0.0543212890625,
+      "min_signed": -0.086944580078125,
+      "rms": 0.0180653724476714,
+      "mean": -1.1255750129913077e-05,
+      "finite": true,
+      "n_nan": 0,
+      "n_inf": 0,
+      "n_zero": 92,
+      "zero_fraction": 0.0013907785336356765
+    }
+  },
+  "reconstruction_checks": {
+    "accomp_equals_mix_minus_vocals_max_abs_diff": 3.0517578125e-05,
+    "equal_lengths": {
+      "mixture": 66150,
+      "vocal_estimate": 66150,
+      "accomp_estimate": 66150,
+      "vocal_reference": 66150
+    },
+    "pcm16_quantization_note": "WAV files are PCM_16, so residual match may be a few LSBs from quantization."
+  },
+  "si_sdr": {
+    "formula": "10*log10(||proj||^2 / ||est-proj||^2), proj = <est,ref>/<ref,ref> * ref, after mean removal",
+    "same_region_samples": 66150,
+    "mixture_vs_vocal_ref_db": -1.6810104057326445,
+    "estimate_vs_vocal_ref_db": -3.6205958725231686,
+    "change_db": -1.9395854667905241,
+    "without_dc_removal": {
+      "mixture_vs_vocal_ref_db": -1.6810762703832263,
+      "estimate_vs_vocal_ref_db": -3.620593532789906,
+      "change_db": -1.9395172624066797
+    },
+    "lag_search": {
+      "estimate_vs_ref": {
+        "lag0_normalized_corr": 0.5503353454559217,
+        "best_lag_samples": -3,
+        "best_lag_ms": -0.1360544217687075,
+        "best_lag_normalized_corr": 0.5890715025356028,
+        "max_lag_searched_samples": 2048
+      },
+      "mixture_vs_ref": {
+        "lag0_normalized_corr": 0.6359430569565366,
+        "best_lag_samples": -3,
+        "best_lag_ms": -0.1360544217687075,
+        "best_lag_normalized_corr": 0.683548265329724,
+        "max_lag_searched_samples": 2048
+      },
+      "estimate_vs_mixture": {
+        "lag0_normalized_corr": 0.7428029670446531,
+        "best_lag_samples": 0,
+        "best_lag_ms": 0.0,
+        "best_lag_normalized_corr": 0.7428029670446531,
+        "max_lag_searched_samples": 2048
+      }
+    },
+    "after_best_lag_estimate_to_ref": {
+      "lag_samples": -3,
+      "mixture_unshifted_on_same_crop_not_recomputed": true,
+      "estimate_vs_vocal_ref_db": -2.7457367269284405,
+      "n_samples": 66147
+    },
+    "after_best_lag_mixture_to_ref": {
+      "lag_samples": -3,
+      "mixture_vs_vocal_ref_db": -0.5699468124407371,
+      "n_samples": 66147
+    },
+    "after_shared_estimate_to_mixture_lag": {
+      "lag_samples": 0,
+      "mixture_vs_vocal_ref_db": -1.6810104057326445,
+      "estimate_vs_vocal_ref_db": -3.6205958725231686,
+      "change_db": -1.9395854667905241,
+      "n_samples": 66150,
+      "note": "Lag is estimate-vs-mixture delay; reference is cropped consistently, not independently time-warped."
+    }
+  },
+  "sliding_0p5s_si_sdr": [
+    {
+      "start_s": 0.0,
+      "end_s": 0.5,
+      "mix_db": -3.239282953513851,
+      "est_db": -1.371472293655025,
+      "change_db": 1.8678106598588262
+    },
+    {
+      "start_s": 0.24997732426303854,
+      "end_s": 0.7499773242630385,
+      "mix_db": -0.2712575340047399,
+      "est_db": 0.49272095855394094,
+      "change_db": 0.7639784925586808
+    },
+    {
+      "start_s": 0.4999546485260771,
+      "end_s": 0.9999546485260771,
+      "mix_db": 0.5748982579703361,
+      "est_db": 1.0373762925886403,
+      "change_db": 0.46247803461830417
+    },
+    {
+      "start_s": 0.7499319727891156,
+      "end_s": 1.2499319727891156,
+      "mix_db": -0.9231947962396158,
+      "est_db": -0.6306497542662993,
+      "change_db": 0.29254504197331643
+    },
+    {
+      "start_s": 0.9999092970521541,
+      "end_s": 1.4999092970521541,
+      "mix_db": -1.3276222582878763,
+      "est_db": -2.7844718921682245,
+      "change_db": -1.4568496338803483
+    },
+    {
+      "start_s": 1.2498866213151927,
+      "end_s": 1.7498866213151927,
+      "mix_db": -1.2500057341138402,
+      "est_db": -3.069679882726508,
+      "change_db": -1.819674148612668
+    },
+    {
+      "start_s": 1.4998639455782312,
+      "end_s": 1.9998639455782312,
+      "mix_db": -2.4468092918001667,
+      "est_db": -2.7220269298610233,
+      "change_db": -0.27521763806085664
+    },
+    {
+      "start_s": 1.7498412698412698,
+      "end_s": 2.2498412698412698,
+      "mix_db": -2.633741856666358,
+      "est_db": -3.0603322355958347,
+      "change_db": -0.4265903789294767
+    },
+    {
+      "start_s": 1.9998185941043083,
+      "end_s": 2.4998185941043083,
+      "mix_db": -3.309702859785632,
+      "est_db": -7.731126020382596,
+      "change_db": -4.421423160596964
+    },
+    {
+      "start_s": 2.249795918367347,
+      "end_s": 2.749795918367347,
+      "mix_db": -3.1600582295750677,
+      "est_db": -20.03704625496844,
+      "change_db": -16.876988025393374
+    },
+    {
+      "start_s": 2.4997732426303854,
+      "end_s": 2.9997732426303854,
+      "mix_db": -2.3768394990768553,
+      "est_db": Infinity,
+      "change_db": Infinity
+    }
+  ],
+  "source_vs_saved": {
+    "resampled_source_mixture_vs_saved_max_abs": 0.0020137690007686615,
+    "resampled_source_vocal_vs_saved_max_abs": 0.0009132931008934975,
+    "source_si_sdr_mixture_vs_vocal_db": -1.6809884463455649,
+    "source_durations": {
+      "mixture_s": 263.56351473922905,
+      "vocal_s": 263.58190476190475
+    },
+    "duration_difference_s": 0.01839002267570322,
+    "mixture_vs_vocal_lag": {
+      "lag0_normalized_corr": 0.6359440145066704,
+      "best_lag_samples": -3,
+      "best_lag_ms": -0.1360544217687075,
+      "best_lag_normalized_corr": 0.6835503651538816,
+      "max_lag_searched_samples": 2048
+    }
+  },
+  "plot_path": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\outputs\\mtg_diagnostics\\brova_barama_3s_sisdr_alignment_diagnostics.png"
+}

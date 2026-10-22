@@ -15,6 +15,9 @@ outputs/**/*.ogg
 outputs/**/*.oga
 outputs/**/*.flac
 
+# Generated plots
+outputs/**/*.png
+
 # Model weights and checkpoints
 *.pth
 *.pt

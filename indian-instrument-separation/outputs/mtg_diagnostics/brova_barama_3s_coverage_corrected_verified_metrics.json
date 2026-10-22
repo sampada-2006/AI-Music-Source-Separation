@@ -1,0 +1,84 @@
+{
+  "method": "official MTG feature extraction, clustering mask, VAD, and overlap-add",
+  "chunk_advance": "half of each actual inverse-STFT reconstructed output length",
+  "partial_windows": "right-padded to the 3-second model window to preserve valid U-Net dimensions; reconstructed output is cropped to remaining source samples",
+  "evaluation": {
+    "recording": "Brova Barama, Akkarai Sisters, Saraga v1.5",
+    "start_seconds": 0.0,
+    "duration_seconds": 3.0,
+    "sample_rate": 22050,
+    "samples": 66150,
+    "channels": 1,
+    "same_reference_for_all_estimates": true,
+    "mixture_si_sdr_db": -1.6809769234168526,
+    "original_baseline_si_sdr_db": -3.620609966703741,
+    "coverage_corrected_si_sdr_db": -1.1968160336948084,
+    "original_baseline_change_vs_mixture_db": -1.9396330432868885,
+    "coverage_corrected_change_vs_mixture_db": 0.4841608897220442,
+    "baseline_runner_recorded_si_sdr_db": -3.6206143772681965
+  },
+  "baseline_estimate": {
+    "samples": 66150,
+    "duration_seconds": 3.0,
+    "sample_rate": 22050,
+    "channels": 1,
+    "peak": 0.30126953125,
+    "rms": 0.04290451074263,
+    "finite": true,
+    "exact_zero_samples": 16441,
+    "trailing_exact_zero_samples": 15927,
+    "trailing_exact_zero_seconds": 0.7223129251700681
+  },
+  "coverage_corrected_estimate": {
+    "samples": 66150,
+    "duration_seconds": 3.0,
+    "sample_rate": 22050,
+    "channels": 1,
+    "peak": 0.30126953125,
+    "rms": 0.07063838643066195,
+    "finite": true,
+    "exact_zero_samples": 420,
+    "trailing_exact_zero_samples": 0,
+    "trailing_exact_zero_seconds": 0.0
+  },
+  "full_interval_covered_by_positive_overlap_weights": true,
+  "overlap_weight_min": 1.0,
+  "overlap_weight_max": 1.0,
+  "chunks": [
+    {
+      "chunk_index": 0,
+      "start_sample": 0,
+      "input_samples_before_padding": 66150,
+      "input_samples_to_model": 66150,
+      "right_padded_samples": 0,
+      "reconstructed_samples": 33536,
+      "written_samples": 33536,
+      "overlap_add_boundary": "start",
+      "next_start_sample": 16768
+    },
+    {
+      "chunk_index": 1,
+      "start_sample": 16768,
+      "input_samples_before_padding": 49382,
+      "input_samples_to_model": 66150,
+      "right_padded_samples": 16768,
+      "reconstructed_samples": 33536,
+      "written_samples": 33536,
+      "overlap_add_boundary": null,
+      "next_start_sample": 33536
+    },
+    {
+      "chunk_index": 2,
+      "start_sample": 33536,
+      "input_samples_before_padding": 32614,
+      "input_samples_to_model": 66150,
+      "right_padded_samples": 33536,
+      "reconstructed_samples": 33536,
+      "written_samples": 32614,
+      "overlap_add_boundary": "end",
+      "next_start_sample": 50304
+    }
+  ],
+  "checkpoint_prefix": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\models\\mtg\\saraga-8\\saraga-8.ckpt-1",
+  "checkpoint_restore_assertion": "assert_existing_objects_matched passed after first model call"
+}

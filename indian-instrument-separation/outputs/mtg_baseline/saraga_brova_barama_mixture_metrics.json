@@ -1,0 +1,24 @@
+{
+  "mixture_path": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\data\\saraga_mridangam_brova_barama\\saraga_brova_barama_mixture.mp3",
+  "duration_s": 3.0,
+  "sample_rate": 22050,
+  "clusters": 5,
+  "scheduler": 4.0,
+  "mix_peak": 0.3012540340423584,
+  "mix_rms": 0.06819431483745575,
+  "vocal_est_peak": 0.3012540340423584,
+  "vocal_est_rms": 0.0429045669734478,
+  "accomp_est_peak": 0.2068154513835907,
+  "accomp_est_rms": 0.046310149133205414,
+  "finite_samples": true,
+  "clipping_detected": false,
+  "vocal_reference": {
+    "path": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\data\\saraga_mridangam_brova_barama\\saraga_brova_barama_vocal.mp3",
+    "ref_peak": 0.08693049103021622,
+    "ref_rms": 0.01806536130607128,
+    "si_sdr_mixture_input_db": -1.6809769234168526,
+    "si_sdr_vocal_estimate_db": -3.6206143772681965,
+    "si_sdr_improvement_db": -1.939637453851344
+  },
+  "plot_path": "D:\\AI-Music-Source-Separation\\indian-instrument-separation\\outputs\\mtg_baseline\\saraga_brova_barama_mixture_diagnostic_plot.png"
+}

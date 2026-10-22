@@ -94,11 +94,10 @@ def separate_audio(
 ) -> np.ndarray:
     """Run official MTG cold-diffusion separation pipeline."""
     mix_tensor = tf.convert_to_tensor(mixture_audio, dtype=tf.float32)
-
-    # Standardize input mixture
-    mean = tf.reduce_mean(mix_tensor, keepdims=True)
-    std = tf.math.reduce_std(mix_tensor, keepdims=True)
-    norm_mixture = (mix_tensor - mean) / (std + 1e-6)
+    peak = float(tf.reduce_max(mix_tensor).numpy())
+    if not np.isfinite(peak) or peak <= 0:
+        raise ValueError("Mixture must have a positive, finite peak amplitude.")
+    norm_mixture = mix_tensor / peak
 
     output_voc = np.zeros(norm_mixture.shape, dtype=np.float32)
     hop_samples = int((chunk_size_sec * TARGET_SR) / 2)
@@ -230,8 +229,8 @@ def run_baseline(
     ckpt_path = checkpoint_dir / "saraga-8.ckpt-1"
     print(f"Loading MTG checkpoint from: {ckpt_path}...")
     model = DiffWave(config.model)
-    model.restore(str(ckpt_path)).expect_partial()
-    print("MTG DiffWave model loaded successfully.")
+    restore_status = model.restore(str(ckpt_path))
+    restore_status.expect_partial()
 
     # Load audio
     mix, sr = load_mono(mixture_path)
@@ -248,6 +247,8 @@ def run_baseline(
         clusters=clusters,
         scheduler=scheduler,
     )
+    restore_status.assert_existing_objects_matched()
+    print("MTG DiffWave checkpoint weights restored successfully.")
 
     # Accompaniment residual estimate
     common_len = min(len(mix), len(pred_voc))
@@ -368,12 +369,12 @@ def main():
     parser.add_argument(
         "--mridangam-left",
         type=Path,
-        default=PROJECT_ROOT / "data" / "saraga_mridangam_brova_barama" / "saraga_brova_barama_mridangam_left.mp3",
+        default=None,
     )
     parser.add_argument(
         "--mridangam-right",
         type=Path,
-        default=PROJECT_ROOT / "data" / "saraga_mridangam_brova_barama" / "saraga_brova_barama_mridangam_right.mp3",
+        default=None,
     )
     parser.add_argument(
         "--checkpoint-dir",
