@@ -37,3 +37,10 @@ outputs/**/*.flac
 .vscode/
 .DS_Store
 Thumbs.db
+
+
+# MTG models and virtual environments
+models/
+ckpt/
+.venv_mtg/
+data_mtg_prepared/

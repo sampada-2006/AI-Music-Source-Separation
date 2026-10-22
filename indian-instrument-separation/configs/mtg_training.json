@@ -1,0 +1,37 @@
+{
+  "experiment_name": "mtg_carnatic_finetune",
+  "model": {
+    "sr": 22050,
+    "hop": 256,
+    "win": 1024,
+    "mel": 80,
+    "fmin": 0,
+    "fmax": 8000,
+    "leak": 0.4,
+    "channels": 64,
+    "iter": 8,
+    "noise_policy": "linear",
+    "noise_start": 0.0001,
+    "noise_end": 0.5
+  },
+  "training": {
+    "random_seed": 42,
+    "learning_rate": 2e-6,
+    "batch_size": 2,
+    "epochs": 5,
+    "steps_per_epoch": 10,
+    "eval_interval_steps": 10,
+    "checkpoint_interval_steps": 10,
+    "segment_frames": 33536,
+    "optimizer": "adam",
+    "beta1": 0.9,
+    "beta2": 0.98,
+    "epsilon": 1e-9
+  },
+  "paths": {
+    "data_dir": "data_mtg_prepared",
+    "pretrained_checkpoint": "models/mtg/saraga-8/saraga-8.ckpt-1",
+    "output_checkpoint_dir": "outputs/mtg_training/checkpoints",
+    "log_dir": "outputs/mtg_training/logs"
+  }
+}
